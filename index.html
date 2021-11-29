@@ -11,7 +11,33 @@
 <tw-story><noscript><tw-noscript>JavaScript needs to be enabled to play Помоги Ивану найти работу.</tw-noscript></noscript></tw-story>
 <tw-storydata name="Помоги Ивану найти работу" startnode="1" creator="Twine" creator-version="2.3.15" ifid="34BBED3B-483E-4DC8-96F7-6E1246B172D8" zoom="0.6" format="Harlowe" format-version="3.2.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">tw-sidebar {
     display: none;
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Знакомство" tags="" position="1211.3333333333333,1801" size="100,100">(display: &quot;Рассказ об Иване&quot;)
+}
+
+tw-story {
+  font-family: consolas, monospace, helvetica, sans-serif;
+  font-size:150%;
+  color: #F7F7F7;
+  background-color: #333333;
+}
+
+a:link {
+  color: #F7F7F7;
+}
+
+/* visited link */
+a:visited {
+  color: #F7F7F7;
+}
+
+/* mouse over link */
+a:hover {
+  color: #F7F7F7;
+}
+
+/* selected link */
+a:active {
+  color: #F7F7F7;
+}</style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="Знакомство" tags="" position="1219.3333333333333,1771" size="100,100">(display: &quot;Рассказ об Иване&quot;)
 Помогите ему найти работу мечты!
 
 [[Хорошо  -&gt;Дом]]
@@ -20,8 +46,8 @@
 (set: $debugMode to false)
 
 &lt;!-- DAYS --&gt;
-(set: $startSearchCandidateDay to 3)
-(set: $maxDays to 10)
+(set: $startSearchCandidateDay to 7)
+(set: $maxDays to 16)
 (set: $dailyVisits to 0)
 (set: $day to 1)
 
@@ -29,7 +55,7 @@
 (set: $initialWorkExperience to 0)
 (set: $gitHubRepositories to 0)
 (set: $openSourcePRs to 0)
-(set: $leetcodeExercises to 7)
+(set: $leetcodeExercises to 4)
 (set: $freelanceProjects to 0)
 (set: $petProjects to 0)
 (set: $netTopics to 4)
@@ -64,6 +90,9 @@
 (set: $interviewScore to 0)
 (set: $minNetKnowledge to 0)
 (set: $desiredSalary to 0)
+(set: $resultSalary to 0)
+(set: $currentQuestion to &quot;&quot;)
+(set: $isInterviewMode to false)
 
 &lt;!-- RESUME --&gt;
 (set: $salary to 40000)
@@ -113,9 +142,8 @@
 
 (set: $visibleVacancies to (ds: $vacancy1,$vacancy2,$vacancy3,$vacancy4,$vacancy5,$vacancy6))
 
-}</tw-passagedata><tw-passagedata pid="2" name="Дом" tags="" position="1117.3333333333333,1089" size="100,100">(display: &quot;Время&quot;)
-У Ивана еще остались небольшие сбережения на жизнь, но надо бы поторопиться с поиском работы. 
-(if: visits is 1)[Итак, с чего начнем?]
+}</tw-passagedata><tw-passagedata pid="2" name="Дом" tags="" position="1117,1089" size="100,100">(display: &quot;Базовый&quot;)
+У Ивана еще остались небольшие сбережения на жизнь, но надо бы поторопиться с поиском работы.(if: visits is 1)[Итак, с чего начнем?&lt;br&gt;]
 
 {
 (if:visits is an even) [
@@ -150,9 +178,7 @@
 
 Иван видит свой GitHub аккаунт. 
 (display: &quot;GitHub профиль&quot;)
-
 Что дальше?
-
 {
 (if: $openSourcePRs &lt; 1)[
 [[Посмотреть популярные репозитории для OpenSource-&gt;OpenSource репозиторий]]&lt;br&gt;
@@ -173,7 +199,6 @@
 [[Заняться своим pet-project&#39;ом]]&lt;br&gt;
 ]
 }
-
 [[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="5" name="Биржа фриланса" tags="" position="797,569" size="100,100">(display: &quot;Базовый&quot;)
 
 (if: visits is 1)[Иван успешно зарегистрировался на сайте.]
@@ -187,11 +212,18 @@
 (set: $challengeResultPassage to &quot;Результат работы на бирже фриланса&quot;)
 (set: $challengeHeader to &quot;Ивану выпало испытание при работе на проекте - надо лишь ответить на вопрос...&quot;)
 }
-[[Консультация на пару часов за 500 руб.]]
-[[Небольшой проект на пару дней за 8000 руб.]]
-[[Недельный проект за 30000 руб.]]
-
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="6" name="Звонок от HR" tags="" position="1569,546" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="7" name="Разговор о зарплате" tags="" position="1495,893" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="8" name="Отдых с друзьями" tags="" position="1284,903" size="100,100">Иван хорошо отдохнул с друзьями. Забыл о поиске работы и засиделся до поздна. 
+{
+  (if: $freelanceProjects &lt;= 5)[
+  	[[Консультация на пару часов за 500 руб.]]&lt;br&gt;
+  ]
+  (if: $freelanceProjects &lt;= 8)[
+  	[[Небольшой проект на пару дней за 8000 руб.]]&lt;br&gt;
+  ]
+  (if: $freelanceProjects &lt;= 12)[
+  	[[Недельный проект за 30000 руб.]]&lt;br&gt;
+  ]
+}
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="6" name="Разговор о зарплате" tags="" position="1490,846.3333333333334" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="7" name="Отдых с друзьями" tags="" position="1284,903" size="100,100">Иван хорошо отдохнул с друзьями. Забыл о поиске работы и засиделся до поздна. 
 {
 (set: $dailyVisits to it + 6)
 (if: $metWithFriends is false)[
@@ -200,7 +232,7 @@
 (set: $metWithFriends to true)
 ]
 }
-[[Вернуться домой -&gt;Дом]]</tw-passagedata><tw-passagedata pid="9" name="Статья про ASP.NET Core" tags="" position="110,1670" size="100,100">(display: &quot;Базовый&quot;)
+[[Вернуться домой -&gt;Дом]]</tw-passagedata><tw-passagedata pid="8" name="Статья про ASP.NET Core" tags="" position="110,1670" size="100,100">(display: &quot;Базовый&quot;)
 
 Статья начинается следующим образом:
 
@@ -213,7 +245,7 @@
 Звучит интригующе? Продолжить читать?
 
 (link: &quot;Да&quot;)[(set:$aspnetArticleDone to true)(goto:&quot;Статья прочитана&quot;)]
-[[Нет -&gt;Соц. сети]]</tw-passagedata><tw-passagedata pid="10" name="Leetcode" tags="" position="571,1191" size="100,100">(display: &quot;Базовый&quot;)
+[[Нет -&gt;Соц. сети]]</tw-passagedata><tw-passagedata pid="9" name="Leetcode" tags="" position="571,1189.3333333333333" size="100,100">(display: &quot;Базовый&quot;)
 (display: &quot;Профиль на leetcode&quot;)
 
 Иван не в первый раз на этом сайте. Все уже довольно знакомо. Он решил более 30 задач легкого и среднего уровня сложности. Может стоит замахнуться на что-то по серьезнее?
@@ -222,11 +254,20 @@
 (set: $challengeResultPassage to &quot;Результат задачи на leetcode&quot;)
 (set: $challengeHeader to &quot;Ивану выпало испытание при выполнении задания на leetcode. Какой же ответ на...&quot;)
 }
-[[Выбрать легкую задачу -&gt; Легкая задача на leetcode]]
-[[Выбрать среднюю задачу -&gt; Средняя задача на leetcode]]
-[[Выбрать сложную задачу -&gt; Сложная задача на leetcode]]
 
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="11" name="Оффер" tags="" position="1756,189.66666666666666" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="12" name="Тестирование" tags="" position="1791,759" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="13" name="Опыт в резюме" tags="" position="1426,199" size="100,100">(display: &quot;Резюме&quot;)
+{
+  (if: $leetcodeExercises &lt;= 7)[
+  	[[Выбрать легкую задачу -&gt; Легкая задача на leetcode]]&lt;br&gt;
+  ]
+  (if: $leetcodeExercises &lt;= 10)[
+  	[[Выбрать среднюю задачу -&gt; Средняя задача на leetcode]]&lt;br&gt;
+  ]
+  (if: $leetcodeExercises &lt;= 14)[
+  	[[Выбрать сложную задачу -&gt; Сложная задача на leetcode]]&lt;br&gt;
+  ]
+}
+
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="10" name="Оффер" tags="" position="1756,189" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="11" name="Тестирование" tags="" position="1791,759" size="100,100">Double-click this passage to edit it.</tw-passagedata><tw-passagedata pid="12" name="Опыт в резюме" tags="" position="1426,199" size="100,100">(display: &quot;Резюме&quot;)
 
 {
 (for: each _experience, ...$availableExperiences)[
@@ -235,12 +276,12 @@
 ]
 ]
 }
-[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="14" name="Навыки в резюме" tags="" position="1156,26" size="100,100">(display: &quot;Резюме&quot;)
+[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="13" name="Навыки в резюме" tags="" position="1156,26" size="100,100">(display: &quot;Резюме&quot;)
 
 (for: each _editableSkill, ...$editableSkills)
 [(if: $skills contains _editableSkill)[(link:&quot;Убрать навык &quot; + _editableSkill)[(set: $skills to $skills - (a: _editableSkill))(goto: &quot;Навыки в резюме&quot;)]](else: )[(link:&quot;Добавить навык &quot; + _editableSkill)[(set: $skills to $skills + (a: _editableSkill))(goto: &quot;Навыки в резюме&quot;)]]
 ]
-[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="15" name="Вакансии C# программиста" tags="" position="789,176" size="100,100">Иван вбивает заветные &quot;C# программист&quot; в строку поиска и видит:
+[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="14" name="Вакансии C# программиста" tags="" position="789,176" size="100,100">Иван вбивает заветные &quot;C# программист&quot; в строку поиска и видит:
 {
 (for: each _vacancy, ...$visibleVacancies)
 [
@@ -251,26 +292,22 @@
 ]
 }
 
-[[Вернуться -&gt;Сайт для поиска работы]]</tw-passagedata><tw-passagedata pid="16" name="Сайт для поиска работы" tags="" position="994,344" size="100,100">(display: &quot;Базовый&quot;)
+[[Вернуться -&gt;Сайт для поиска работы]]</tw-passagedata><tw-passagedata pid="15" name="Сайт для поиска работы" tags="" position="994,344" size="100,100">(display: &quot;Базовый&quot;)
 Иван на известном сайте по поиску работы BrainSeeker.ru. Что ему здесь нужно?
+
 [[Обновить свое резюме -&gt;Меню резюме]]
 [[Посмотреть вакансии C# программиста -&gt;Вакансии C# программиста]]
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="17" name="Зарплатные ожидания в резюме" tags="" position="1291,94" size="100,100">(display: &quot;Резюме&quot;)
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="16" name="Зарплатные ожидания в резюме" tags="" position="1291,94" size="100,100">(display: &quot;Резюме&quot;)
 (for: each _salary, ...$availableSalaries) [(if: _salary is not $salary)[(if: _salary is 0)[(set: $salaryLinkText to &quot;Скрыть з/п ожидания&quot;)](else: )[(set: $salaryLinkText to (text: _salary) + &quot; руб.&quot;)]
 (link: $salaryLinkText)[(set: $salary to _salary)(goto: &quot;Зарплатные ожидания в резюме&quot;)]]]
-[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="18" name="Резюме" tags="" position="1478,68" size="100,100">Резюме Ивана выглядит так:
+[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="17" name="Резюме" tags="" position="1478,68" size="100,100">Резюме Ивана выглядит так:
 &#39;&#39;Разработчик C#&#39;&#39; (if:$salary is not 0)[($salary руб.)]
 &#39;&#39;Опыт работы (лет)&#39;&#39;: (if: $experience is 0)[без опыта](else: )[$experience]
 &#39;&#39;Навыки&#39;&#39;
-(for: each _skill, ...$skills) [(text-style:&quot;mark&quot;)[_skill]   ]
+(for: each _skill, ...$skills) [(text-color:&quot;cyan&quot;)[(text-style:&quot;smear&quot;)[_skill]]   ]
 &#39;&#39;Обо мне&#39;&#39;
 $aboutMe
 {
-(set: $isFreelanceExperienceInResume to false)
-(set: $isOpenSourceExperienceInResume to false)
-(set: $isPetProjectInResume to false)
-(set: $isGitHubInResume to false)
-
 (if: $isGitHubInResume)[
 Профиль в GitHub c $gitHubRepositores репозиториями: github.com/IvanTheBest. 
 ]
@@ -283,46 +320,48 @@ $aboutMe
 (if: $isPetProjectInResume)[
 Также в свободное время занимаюсь своим pet-project&#39;ом по автоматизации ухода за растениями.
 ]
-}</tw-passagedata><tw-passagedata pid="19" name="О себе" tags="" position="1411,340" size="100,100">(display: &quot;Резюме&quot;)
+}</tw-passagedata><tw-passagedata pid="18" name="О себе" tags="" position="1411,340" size="100,100">(display: &quot;Резюме&quot;)
 
 {
 (set: _isSomethingAvailable to false)
 (if: $isGitHubInResume is false and $gitHubRepositores &gt; 0)
 [
 (set: _isSomethingAvailable to true)
-(link: &quot;Добавить ссылку на GitHub аккаунт&quot;)[(set: $isGitHubInResume to true) (goto: &quot;О себе&quot;)]&lt;/br&gt;
+(link: &quot;Добавить ссылку на GitHub аккаунт&quot;)[(set: $isGitHubInResume to true) (goto: &quot;О себе&quot;)]&lt;br&gt;
 ]
 (if: $isFreelanceExperienceInResume is false and $freelanceProjects &gt; 0)
 [
 (set: _isSomethingAvailable to true)
-(link: &quot;Добавить про опыт работы во фрилансе&quot;)[(set: $isFreelanceExperienceInResume to true) (goto: &quot;О себе&quot;)]&lt;/br&gt;
+(link: &quot;Добавить про опыт работы во фрилансе&quot;)[(set: $isFreelanceExperienceInResume to true) (goto: &quot;О себе&quot;)]&lt;br&gt;
 ]
 (if: $isOpenSourceExperienceInResume is false and $openSourcePRs &gt; 0)
 [
 (set: _isSomethingAvailable to true)
-(link: &quot;Добавить про вклад в OpenSource&quot;)[(set: $isOpenSourceExperienceInResume to true) (goto: &quot;О себе&quot;)]&lt;/br&gt;
+(link: &quot;Добавить про вклад в OpenSource&quot;)[(set: $isOpenSourceExperienceInResume to true) (goto: &quot;О себе&quot;)]&lt;br&gt;
 ]
-(if: _isSomethingAvailable is false)[Вроде бы нечего добавить.&lt;/br&gt;]
+(if: _isSomethingAvailable is false)[Вроде бы нечего добавить.&lt;br&gt;]
 }
 
-[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="20" name="Рассказ об Иване" tags="" position="979,1335" size="100,100">Это Иван. Ему 30 лет. Он живет в городе Пермь. 
+[[Вернуться в резюме-&gt;Меню резюме]] </tw-passagedata><tw-passagedata pid="19" name="Рассказ об Иване" tags="" position="979,1335" size="100,100">Это Иван. Ему 30 лет. Он живет в городе Пермь. 
 Окончил физфак в одном из ВУЗов города. 
 Работает консультантом в банке. Однако попал под сокращение и согласился на уменьшение ставки и рабочих часов наполовину. Решил найти работу в IT. 
 Для этого прошел курсы по C# для новичков за 3 месяца. 
 После продолжил решать задачи на leetcode. У него это хорошо получается. 
 Кроме того Иван читает Рихтера и пытается все примеры проверять на практике. 
 Иван полюбил программирование и теперь полон уверенности устроится на работу в IT. 
-Он хочет работу в большой и стабильной компании с перспективой роста. </tw-passagedata><tw-passagedata pid="21" name="Время" tags="" position="1284.3333333333333,1261" size="100,100">{
+Он хочет работу в большой и стабильной компании с перспективой роста. </tw-passagedata><tw-passagedata pid="20" name="Время" tags="" position="1284,1261" size="100,100">{
 (if: $dailyVisits &gt; 0 and $dailyVisits % 30 is 0)[(goto: &quot;Соц. сети&quot;)]
 (set: $dailyVisits to it + 1)
 (set: $day to 1 + (floor: $dailyVisits / 6))
 }
-//Шел $day-й день поиска работы.//</tw-passagedata><tw-passagedata pid="22" name="Базовый" tags="" position="1103,1281" size="100,100">{
+//Шел $day-й день поиска работы.//</tw-passagedata><tw-passagedata pid="21" name="Базовый" tags="" position="1103,1281" size="100,100">{
 (set: $passage to (passage:)&#39;s name)
 (display: &quot;Время&quot;)
 (display: &quot;Обновить скиллы&quot;)
 
-(if: $day &gt;= $startSearchCandidateDay)[
+(if: $day &gt;= $maxDays)[
+(goto: &quot;Итог&quot;)
+](elseif: $day &gt;= $startSearchCandidateDay)[
 (display: &quot;Компания ищет кандидата&quot;)
 ]
 
@@ -333,7 +372,7 @@ $aboutMe
 ---------------------------
 ]
 }
-</tw-passagedata><tw-passagedata pid="23" name="Соц. сети" tags="" position="1977,1681" size="100,100">(if: visits % 3 is 0)[Иван потратил несколько часов на просмотр сториз в Instagram.](elseif: visits % 3 is 1)[Иван затянулся просмотром видео на YouTube и пропал.](else: )[Иван решил потратить время на чтение новостей в Facebook и Twitter.]
+</tw-passagedata><tw-passagedata pid="22" name="Соц. сети" tags="" position="1977,1681" size="100,100">(if: visits % 3 is 0)[Иван потратил несколько часов на просмотр сториз в Instagram.](elseif: visits % 3 is 1)[Иван затянулся просмотром видео на YouTube и пропал.](else: )[Иван решил потратить время на чтение новостей в Facebook и Twitter.]
 {(set: $dailyVisits to it + 3)}
 
 {
@@ -342,27 +381,27 @@ $aboutMe
 ]
 }
 [[Вернуться в реальность -&gt;Дом]]
-</tw-passagedata><tw-passagedata pid="24" name=" Легкая задача на leetcode" tags="" position="312,1304" size="100,100">Задание выглядит довольно тривиальным. Вроде бы все просто. Надо перевернуть строку за минимум итераций. Вроде бы, ничего сложного. Или все-таки есть подвох?
+</tw-passagedata><tw-passagedata pid="23" name=" Легкая задача на leetcode" tags="" position="312,1304" size="100,100">Задание выглядит довольно тривиальным. Вроде бы все просто. Надо перевернуть строку за минимум итераций. Вроде бы, ничего сложного. Или все-таки есть подвох?
 {
 (set: $challengePower to 1)
 (set: $challengeLevel to &quot;low&quot;)
 }
 [[Проще некуда. Приступить к задаче -&gt;Испытание]]
-[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="25" name=" Средняя задача на leetcode" tags="" position="573,1349" size="100,100">Это задание на определение корректности синтаксиса в выражении неизвестного Ивану языка. Как раз такую задачу он в прошлый раз не осилил. Но не в этот раз...
+[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="24" name=" Средняя задача на leetcode" tags="" position="573,1349" size="100,100">Это задание на определение корректности синтаксиса в выражении неизвестного Ивану языка. Как раз такую задачу он в прошлый раз не осилил. Но не в этот раз...
 
 {
 (set: $challengePower to 3)
 (set: $challengeLevel to &quot;medium&quot;)
 }
 [[Есть пара идей. Приступить к задаче -&gt;Испытание]]
-[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="26" name=" Сложная задача на leetcode" tags="" position="794.6666666666666,1323.6666666666667" size="100,100">Задание из разряда &quot;Соорудите космолет&quot;. Длинный текст, много непонятных букв. Необходимо время для обдумывания.
+[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="25" name=" Сложная задача на leetcode" tags="" position="794,1323" size="100,100">Задание из разряда &quot;Соорудите космолет&quot;. Длинный текст, много непонятных букв. Необходимо время для обдумывания.
 
 {
 (set: $challengePower to 5)
 (set: $challengeLevel to &quot;high&quot;)
 }
 [[Рискнуть и начать решать задачу -&gt;Испытание]]
-[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="27" name="Приглашение на собеседование" tags="" position="1526,685" size="100,100">Звонок с незнакомого номера.
+[[Передумать -&gt;Leetcode]]</tw-passagedata><tw-passagedata pid="26" name="Приглашение на собеседование" tags="" position="1526,685" size="100,100">Звонок с незнакомого номера.
 
 Здравствуйте, Иван!
 Я представляю компанию (print: $currentVacancy&#39;s company). Мы ищем специалиста на должность (print: $currentVacancy&#39;s title).
@@ -371,10 +410,9 @@ $aboutMe
 (display: &quot;Вакансия&quot;)
 
 Хотите прийти к нам на техническое собеседование?
-Иван, недолго думая, соглашается.
 
 (link: &quot;Хорошо&quot;)[(goto: &quot;Перед собеседованием&quot;)]
-(link: &quot;Нет, мне не интересно&quot;)[(set: $rejectedVacancies to it + (a:$currentVacancy&#39;s title))(goto: &quot;Перед собеседованием&quot;)]</tw-passagedata><tw-passagedata pid="28" name="Вакансия" tags="" position="789.3333333333334,314.6666666666667" size="100,100">{
+(link: &quot;Нет, мне не интересно&quot;)[(set: $rejectedVacancies to it + (a:$currentVacancy&#39;s title))(goto: &quot;Дом&quot;)]</tw-passagedata><tw-passagedata pid="27" name="Вакансия" tags="" position="789,314" size="100,100">{
 (set: _vacancy to $currentVacancy)
 (print: _vacancy&#39;s title)&lt;br&gt;
 (print: _vacancy&#39;s salaryText)&lt;br&gt;
@@ -386,7 +424,7 @@ $aboutMe
 Требуемые навыки:&lt;br&gt;
 (for: each _requiredSkill, ..._vacancy&#39;s skills)[(text-style:&quot;mark&quot;)[_requiredSkill]   ]
 &lt;br&gt;
-}</tw-passagedata><tw-passagedata pid="29" name="Испытание" tags="" position="461,215" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="28" name="Испытание" tags="" position="461,215" size="100,100">{
 (set: _chance to $heroPower/$challengePower)
 (if: _chance &gt;= 1)[Иван успешно проходит задание. (set:$challengePassed to true)&lt;br&gt;
 (link: &quot;Хорошо&quot;)[(goto:$challengeResultPassage)]]
@@ -404,27 +442,27 @@ $aboutMe
 (set:$challengePassed to false)
 Иван недостаточно прокачался в этой области. К сожалению, он терпит неудачу.&lt;br&gt;(link: &quot;Хорошо&quot;)[(goto:$challengeResultPassage)]
 ]
-}</tw-passagedata><tw-passagedata pid="30" name="Консультация на пару часов за 500 руб." tags="" position="576,437" size="100,100">С виду выглядит как обычная консультация по готовому сайту на ASP.NET. Иван берется за эту работу в надежде, что это займет от силы пару часов.
+}</tw-passagedata><tw-passagedata pid="29" name="Консультация на пару часов за 500 руб." tags="" position="576,437" size="100,100">С виду выглядит как обычная консультация по готовому сайту на ASP.NET. Иван берется за эту работу в надежде, что это займет от силы пару часов.
 {
 (set: $challengePower to 1)
 (set: $challengeLevel to &quot;low&quot;)
 }
 [[А чего сомневаться? Приступить к работе -&gt;Испытание]]
-[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="31" name="Небольшой проект на пару дней за 8000 руб." tags="" position="449,579" size="100,100">С виду выглядит как небольшая доработка с использованием WPF. Иван не так хорошо знаком с этой технологией, но решает взяться за дело.
+[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="30" name="Небольшой проект на пару дней за 8000 руб." tags="" position="449,579" size="100,100">С виду выглядит как небольшая доработка с использованием WPF. Иван не так хорошо знаком с этой технологией, но решает взяться за дело.
 {
 (set: $challengePower to 3)
 (set: $challengeLevel to &quot;medium&quot;)
 }
 [[Вроде бы по силам Ивану. Приступить к работе -&gt;Испытание]]
-[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="32" name="Недельный проект за 30000 руб." tags="" position="347,786" size="100,100">Довольно обширный список требований. Выглядит как небольшой типовой проект на ASP.NET MVC. Иван волнуется, что не уложится в срок. Но решает бросить все силы на этот проект и закончить его за пару дней.
+[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="31" name="Недельный проект за 30000 руб." tags="" position="347,786" size="100,100">Довольно обширный список требований. Выглядит как небольшой типовой проект на ASP.NET MVC. Иван волнуется, что не уложится в срок. Но решает бросить все силы на этот проект и закончить его за пару дней.
 {
 (set: $challengePower to 5)
 (set: $challengeLevel to &quot;high&quot;)
 }
 [[Рискнуть и приступить к работе -&gt;Испытание]]
-[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="33" name="Продолжение технического собеседования" tags="" position="1602.3333333333333,392.6666666666667" size="100,100">Интервьюеры Ивана на удивление приятные и вежливые люди. С ними ему интересно разговаривать и обсуждать новости из мира IT. Однако пришло время технических вопросов. Ну что, приступим?
+[[Передумать -&gt;Биржа фриланса]]</tw-passagedata><tw-passagedata pid="32" name="Продолжение технического собеседования" tags="" position="1602,392" size="100,100">Интервьюеры Ивана на удивление приятные и вежливые люди. С ними ему интересно разговаривать и обсуждать новости из мира IT. Однако пришло время технических вопросов. Ну что, приступим?
 
-[[Перейти к техническим вопросам -&gt;Продолжение технического собеседования 2]]</tw-passagedata><tw-passagedata pid="34" name="Продолжение технического собеседования 2" tags="" position="1745.3333333333333,349.3333333333333" size="100,100">Иван чувствует себя относительно уверенно. Коллеги улыбаются услышав ответы Ивана. Наверное, правильно... С облегчением вздыхает Иван. 
+[[Перейти к техническим вопросам -&gt;Продолжение технического собеседования 2]]</tw-passagedata><tw-passagedata pid="33" name="Продолжение технического собеседования 2" tags="" position="1745,349" size="100,100">Иван чувствует себя относительно уверенно. Коллеги улыбаются услышав ответы Ивана. Наверное, правильно... С облегчением вздыхает Иван. 
 Но вот, каверзный вопрос, на который наш кандидат не знает ответа.
 {
 (set: $challengeResultPassage to &quot;Продолжение технического собеседования 3&quot;)
@@ -433,27 +471,47 @@ $aboutMe
 (set: $challengePower to 5)
 (set: $challengeLevel to &quot;high&quot;)
 }
-(display: &quot;Вопрос&quot;)</tw-passagedata><tw-passagedata pid="35" name="Вопрос" tags="" position="2005.6666666666667,152.66666666666666" size="100,100">{
-(print: $challengeHeader)&lt;br&gt;
+(display: &quot;Вопрос&quot;)</tw-passagedata><tw-passagedata pid="34" name="Вопрос" tags="" position="2005,152" size="100,100">{
 (set: _noMoreQuestions to false)
-(for: each _question, ...$interviewQuestions)[
-(if: _noMoreQuestions is false and not ($askedInterviewQuestions contains _question&#39;s title))[
-(set: _noMoreQuestions to true)
-(set: $askedInterviewQuestions to it + (a:_question&#39;s title))
-(print: _question&#39;s title)&lt;br&gt;
-(print: _question&#39;s text)&lt;br&gt;
-(for: each _answer, ..._question&#39;s answers)[
-(link: _answer)[(if: _answer is _question&#39;s rightAnswer)[(set: $challengePassed to true)](else:)[(set: $challengePassed to false)](goto: &quot;Ответ&quot;)]&lt;br&gt;
+(for: each _iter, ...(a:0,1,2,3,4,5,6,7,8,9,10))[
+  (set: $interviewQuestionIndex to (random: 1, $interviewQuestions&#39;s length))
+  (set: $index to 1)
+  (for: each _question, ...$interviewQuestions)[
+	(if: _noMoreQuestions is false and $index is $interviewQuestionIndex)[
+	  (set: $currentQuestion to _question)
+	  (if: not ($askedInterviewQuestions contains $currentQuestion&#39;s title))[
+		  (set: _noMoreQuestions to true)
+		  (set: $askedInterviewQuestions to it + (a:$currentQuestion&#39;s title))
+	  ]
+	]
+	(set: $index to it + 1)
+  ]
 ]
-]
-]
-
-}</tw-passagedata><tw-passagedata pid="36" name="Статья прочитана" tags="" position="499,1849" size="100,100">Иван прочитал статью и все комментарии под ней. После этого еще долго гуглил по теме и пытался практиковаться. С чувством выполненного долга Иван лег спать.
-
+(if: _noMoreQuestions is true)[
+  (print: $challengeHeader)&lt;br&gt;
+  (print: $currentQuestion&#39;s title)&lt;br&gt;
+  (print: $currentQuestion&#39;s text)&lt;br&gt;
+  (for: each _answer, ...$currentQuestion&#39;s answers)[
+  (link: _answer)[
+  (if: _answer is $currentQuestion&#39;s rightAnswer)[
+  (set: $challengePassed to true)](else:)[
+  (set: $challengePassed to false)]
+  (if: $isInterviewMode is false)[
+  (goto: &quot;Ответ&quot;)]
+  (else:)[
+  (goto: $challengeResultPassage)]]
+  &lt;br&gt;
+  ]
+](else:)[
+  (set: $challengePassed to true)
+  (if: $isInterviewMode is false)[(goto: &quot;Ответ&quot;)]
+  (else:)[(goto: $challengeResultPassage)]]
+}</tw-passagedata><tw-passagedata pid="35" name="Статья прочитана" tags="" position="499,1849" size="100,100">Иван прочитал статью и все комментарии под ней. После этого еще долго гуглил по теме и пытался практиковаться. С чувством выполненного долга Иван лег спать.
+{
 (set: $netTopics to it + 1)
 (set: $dailyVisits to it + 3)
-
-[[Выключить свет -&gt;Дом]]</tw-passagedata><tw-passagedata pid="37" name="Результат работы на бирже фриланса" tags="" position="269,386" size="100,100">{
+}
+[[Выключить свет -&gt;Дом]]</tw-passagedata><tw-passagedata pid="36" name="Результат работы на бирже фриланса" tags="" position="269,386" size="100,100">{
 (if: $challengePassed is true)[
 (if: $challengeLevel is &quot;medium&quot;)[
 (set: $freelanceProjects to it + 3)
@@ -480,8 +538,7 @@ $aboutMe
 (set: $challengePassed to false)
 }
 
-
-[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="38" name="Ответ" tags="" position="1872,52" size="100,100">
+[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="37" name="Ответ" tags="" position="1872,52" size="100,100">
 {
 (if: $challengePassed is true)[
 (link: &quot;Ура! Это правильный ответ...&quot;)[(goto: $challengeResultPassage)]
@@ -489,13 +546,13 @@ $aboutMe
 [
 (link: &quot;К сожалению, это неверный ответ.&quot;)[(goto: $challengeResultPassage)]
 ]
-}</tw-passagedata><tw-passagedata pid="39" name="Неправильный ответ" tags="" position="1265,549" size="100,100">(if: $challengePassed is true)
+}</tw-passagedata><tw-passagedata pid="38" name="Неправильный ответ" tags="" position="1265,549" size="100,100">(if: $challengePassed is true)
 [
 
 ]
 К сожалению
 
-(live: 3s)[(goto: $challengeResultPassage)]</tw-passagedata><tw-passagedata pid="40" name="Результат задачи на leetcode" tags="" position="406,1072" size="100,100">{
+(live: 3s)[(goto: $challengeResultPassage)]</tw-passagedata><tw-passagedata pid="39" name="Результат задачи на leetcode" tags="" position="406,1072" size="100,100">{
 (if: $challengePassed is true)[
 (if: $challengeLevel is &quot;medium&quot;)[
 (set: $leetcodeExercises to it + 3)
@@ -522,8 +579,7 @@ $aboutMe
 (set: $challengePassed to false)
 }
 
-
-[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="41" name="Статья про MS SQL Server" tags="" position="175,1826" size="100,100">(display: &quot;Базовый&quot;)
+[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="40" name="Статья про MS SQL Server" tags="" position="175,1826" size="100,100">(display: &quot;Базовый&quot;)
 
 Статья начинается следующим образом:
 
@@ -534,10 +590,10 @@ SQL Server — это клиент-серверная платформа. Еди
 Звучит интригующе? Продолжить читать?
 
 (link: &quot;Да&quot;)[(set:$msSqlArticleDone to true)(goto:&quot;Статья прочитана&quot;)]
-[[Нет -&gt;Соц. сети]]</tw-passagedata><tw-passagedata pid="42" name="Выложить задачу с leetcode" tags="" position="2342,1189" size="100,100">Иван решил выбрать из решенных задач на leetcode посложнее. По-моему вот эта неплохая: про игру в шахматы с ограничением ходов. Здесь и алгоритмы и интересное задание. Будет, что показать будущему работодателю.
+[[Нет -&gt;Соц. сети]]</tw-passagedata><tw-passagedata pid="41" name="Выложить задачу с leetcode" tags="" position="2342,1189" size="100,100">Иван решил выбрать из решенных задач на leetcode посложнее. По-моему вот эта неплохая: про игру в шахматы с ограничением ходов. Здесь и алгоритмы и интересное задание. Будет, что показать будущему работодателю.
 (set: $leetcodeProjectInGitHub to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="43" name="OpenSource репозиторий" tags="" position="2008,874" size="100,100">Иван нашел подходящий репозиторий. Редактор кода C# на Roslyn. Много звезд от участников OpenSource сообщества. Скорее нетерпится начать. 
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="42" name="OpenSource репозиторий" tags="" position="2008,874" size="100,100">Иван нашел подходящий репозиторий. Редактор кода C# на Roslyn. Много звезд от участников OpenSource сообщества. Скорее нетерпится начать. 
 ...
 Изучив документацию и пролистав код Иван понял, что тут требуется обстоятельный подход и много времени на изучение Roslyn.
 Что посоветуете Ивану?
@@ -549,31 +605,27 @@ SQL Server — это клиент-серверная платформа. Еди
 [[Посмотреть список Issues]]
 [[Проверить корректность тестов]]
 
-[[Уйти из репозитория-&gt;GitHub]]</tw-passagedata><tw-passagedata pid="44" name="GitHub профиль" tags="" position="2142,1485" size="100,100">GitHub профиль: Иван
+[[Уйти из репозитория-&gt;GitHub]]</tw-passagedata><tw-passagedata pid="43" name="GitHub профиль" tags="" position="2142,1485" size="100,100">GitHub профиль: Иван
 {
 (if: $openSourcePRs &gt; 0)[
 Открытых Pull Requests: $openSourcePRs&lt;br&gt;
 ]
 (if: $gitHubRepositories &gt; 0)[Репозиториев: $gitHubRepositories](else:)[Пока пусто, ни одного репозитория.]
 &lt;br&gt;&lt;br&gt;
-(if: $freelanceProjectInGitHub &gt; 1)[Freelance: Сайт по регистрации домашних животных на ASP.NET &lt;br&gt;
--------------------------------&lt;br&gt;]
-(if: $freelanceProjectInGitHub &gt; 0)[Freelance: Модуль для учета коммерческих предложений на WPF &lt;br&gt;
--------------------------------&lt;br&gt;]
+(if: $freelanceProjectInGitHub &gt; 1)[Freelance: Сайт по регистрации домашних животных на ASP.NET &lt;br&gt;]
+(if: $freelanceProjectInGitHub &gt; 0)[Freelance: Модуль для учета коммерческих предложений на WPF &lt;br&gt;]
 
-(if: $petProjectInGitHub &gt; 0)[Pet-project: Регуляция уровня света и температуры комнатных растений на Arduino &lt;br&gt;
--------------------------------&lt;br&gt;]
-(if: $leetcodeProjectInGitHub &gt; 1)[Задача про DDOS атаки&lt;br&gt;
--------------------------------&lt;br&gt;]
-(if: $leetcodeProjectInGitHub &gt; 0)[Задача про шахматы &lt;br&gt;]
-}</tw-passagedata><tw-passagedata pid="45" name="Выложить проект с фриланса" tags="" position="1915,1409" size="100,100">Иван решил взять один из модулей, который он написал для заказчика на GitHub, предварительно убедившись, что не нарушает конфиденциальность. Модуль достаточно общий, может быть переиспользован на множестве проектов - подумал Иван.
+(if: $petProjectInGitHub &gt; 0)[Pet-project: Регуляция уровня света и температуры комнатных растений на Arduino &lt;br&gt;]
+(if: $leetcodeProjectInGitHub &gt; 1)[Leetcode: Задача про DDOS атаки&lt;br&gt;]
+(if: $leetcodeProjectInGitHub &gt; 0)[Leetcode: Задача про шахматы &lt;br&gt;]
+}</tw-passagedata><tw-passagedata pid="44" name="Выложить проект с фриланса" tags="" position="1915,1409" size="100,100">Иван решил взять один из модулей, который он написал для заказчика на GitHub, предварительно убедившись, что не нарушает конфиденциальность. Модуль достаточно общий, может быть переиспользован на множестве проектов - подумал Иван.
 (set: $freelanceProjectInGitHub to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="46" name="Выложить еще одну задачу с leetcode" tags="" position="1835,1245" size="100,100">Иван решил выбрать из решенных задач на leetcode еще одну. Вроде бы неплохая и интересная задача на определение DDOS атаки по массиву тайм-кодов запросов. 
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="45" name="Выложить еще одну задачу с leetcode" tags="" position="1835,1245" size="100,100">Иван решил выбрать из решенных задач на leetcode еще одну. Вроде бы неплохая и интересная задача на определение DDOS атаки по массиву тайм-кодов запросов. 
 
 (set: $leetcodeProjectInGitHub to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="47" name="Выложить еще один проект с фриланса" tags="" position="2056,1335" size="100,100">Иван решил взять проект заказчика целиком, так как он был не против.
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="46" name="Выложить еще один проект с фриланса" tags="" position="2056,1335" size="100,100">Иван решил взять проект заказчика целиком, так как он был не против.
 ...
 По ходу дела Иван решил причесать проект и добавить немного тестов - на что у него ушел целый день.
 
@@ -581,25 +633,25 @@ SQL Server — это клиент-серверная платформа. Еди
 Прошел 1 день.&lt;br&gt;
 (set: $freelanceProjectInGitHub to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="48" name="Начать свой pet-project" tags="" position="2230,1290" size="100,100">Иван знает, что каждый уважающий себя разработчик должен иметь свой pet-project, которым занимается в свободное время. Ивана всегда привлекала работа с железом. Поэтому он решил заняться проектом на Arduino.
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="47" name="Начать свой pet-project" tags="" position="2230,1290" size="100,100">Иван знает, что каждый уважающий себя разработчик должен иметь свой pet-project, которым занимается в свободное время. Ивана всегда привлекала работа с железом. Поэтому он решил заняться проектом на Arduino.
 ...
 Он уже расписал структуру проекта и написал некоторые функции. Пока все идет отлично. Но Иван устал и хочет спать.
 (set: $petProjectInGitHub to it + 1)
 (set: $petProjects to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="49" name="Заняться своим pet-project&#39;ом" tags="" position="2379,1032" size="100,100">У Ивана появилось несколько новых идей для реализации автономатизации системы полива растений. Он обдумывал их в течение недели и наконец дошел до репозитория. Похвальный поступок! 
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="48" name="Заняться своим pet-project&#39;ом" tags="" position="2379,1032" size="100,100">У Ивана появилось несколько новых идей для реализации автономатизации системы полива растений. Он обдумывал их в течение недели и наконец дошел до репозитория. Похвальный поступок! 
 ...
 В пылу разработки Иван забыл про время. Когда он вспомнил про сон, то часы показывали 3:30 ночи.
 (set: $petProjectInGitHub to it + 1)
 (set: $petProjects to it + 1)
 (set: $gitHubRepositories to it + 1)
-[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="50" name="Профиль на фриланс бирже" tags="" position="956,572" size="100,100">Биржа фрилансеров FreeLancer.Net
+[[Закрыть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="49" name="Профиль на фриланс бирже" tags="" position="956,572" size="100,100">Биржа фрилансеров FreeLancer.Net
 
 Фрилансер-программист Иван (C#)
-Рейтинг: (for: each _star, ...(a:1,2,3,4,5,6,7,8,9,10))[(if: _star &lt;=$freelanceProjects)[⭐]]</tw-passagedata><tw-passagedata pid="51" name="Профиль на leetcode" tags="" position="528,857" size="100,100">Leetcode 
+Рейтинг: (for: each _star, ...(a:1,2,3,4,5,6,7,8,9,10))[(if: _star &lt;=$freelanceProjects)[⭐]]</tw-passagedata><tw-passagedata pid="50" name="Профиль на leetcode" tags="" position="528,857" size="100,100">Leetcode 
 
 Ivan Developer (C#)
-Rating: (for: each _star, ...(a:1,2,3,4,5,6,7,8,9,10))[(if: _star &lt;=$leetcodeExercises/2)[⭐]]</tw-passagedata><tw-passagedata pid="52" name="DebugView" tags="" position="1373,1387" size="100,100">Параметры Ивана
+Rating: (for: each _star, ...(a:1,2,3,4,5,6,7,8,9,10))[(if: _star &lt;=$leetcodeExercises/2)[⭐]]</tw-passagedata><tw-passagedata pid="51" name="DebugView" tags="" position="1373,1387" size="100,100">Параметры Ивана
 
 Leetcode:
 leetcodeExercises=$leetcodeExercises
@@ -637,21 +689,21 @@ resumePower=$resumePower
 isFreelanceExperienceInResume=$isFreelanceExperienceInResume
 isGitHubInResume=$isFreelanceExperienceInResume
 isOpenSourceExperienceInResume=$isOpenSourceExperienceInResume
-salaryPower=$salaryPower</tw-passagedata><tw-passagedata pid="53" name="Посмотреть список Issues" tags="" position="2029.6666666666667,669" size="100,100">Иван прошерстил список багов в Issues репозитория. Да, есть над чем поработать. Только с ходу непонятно, в чем причина? Автор репозитория не отвечает. Есть ли шанс, что Pull Request заапрувят? Может не стоит браться?
+salaryPower=$salaryPower</tw-passagedata><tw-passagedata pid="52" name="Посмотреть список Issues" tags="" position="2029,669" size="100,100">Иван прошерстил список багов в Issues репозитория. Да, есть над чем поработать. Только с ходу непонятно, в чем причина? Автор репозитория не отвечает. Есть ли шанс, что Pull Request заапрувят? Может не стоит браться?
 
 {
 (set: $challengePower to 5)
 (set: $challengeLevel to &quot;high&quot;)
 }
 [[Надо попытаться -&gt;Испытание]]
-[[Передумать -&gt;OpenSource репозиторий]]</tw-passagedata><tw-passagedata pid="54" name="Проверить корректность тестов" tags="" position="2289,789" size="100,100">Иван посмотрел тесты в репозитории. Их не так много, поэтому можно добавить парочку на одну из функций. Правда придется изучить библиотеку Moq для этого.
+[[Передумать -&gt;OpenSource репозиторий]]</tw-passagedata><tw-passagedata pid="53" name="Проверить корректность тестов" tags="" position="2289,789" size="100,100">Иван посмотрел тесты в репозитории. Их не так много, поэтому можно добавить парочку на одну из функций. Правда придется изучить библиотеку Moq для этого.
 
 {
 (set: $challengePower to 3)
 (set: $challengeLevel to &quot;medium&quot;)
 }
 [[Взяться за тесты -&gt;Испытание]]
-[[Передумать -&gt;OpenSource репозиторий]]</tw-passagedata><tw-passagedata pid="55" name="Результат OpenSource" tags="" position="2461,680.3333333333334" size="100,100">{
+[[Передумать -&gt;OpenSource репозиторий]]</tw-passagedata><tw-passagedata pid="54" name="Результат OpenSource" tags="" position="2461,680" size="100,100">{
 (if: $challengePassed is true)[
 (if: $challengeLevel is &quot;medium&quot;)[
 (set: $openSourcePRs to it + 1)
@@ -669,12 +721,12 @@ salaryPower=$salaryPower</tw-passagedata><tw-passagedata pid="53" name="Посм
 (set: $challengePassed to false)
 }
 
-[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="56" name="Обновить скиллы" tags="" position="1506,1417" size="100,100">{
+[[Отдохнуть -&gt;Дом]]</tw-passagedata><tw-passagedata pid="55" name="Обновить скиллы" tags="" position="1506,1417" size="100,100">{
 &lt;!-- RECALCULATE --&gt;
 &lt;!-- GROWING SKILLS --&gt;
 
 &lt;!-- FREELANCE EXPERIENCE --&gt;
-(set: $freelanceExperience to $freelanceProjects*0.4)
+(set: $freelanceExperience to $freelanceProjects*0.5)
 
 &lt;!-- GITHUB POWER --&gt;
 (set: $gitHubPower to (min: $gitHubRepositories*0.5 + $openSourcePRs*1.5,10))
@@ -683,7 +735,7 @@ salaryPower=$salaryPower</tw-passagedata><tw-passagedata pid="53" name="Посм
 (set: $workExperience to $initialWorkExperience + $freelanceExperience)
 
 &lt;!-- LEETCODE EXPERIENCE --&gt;
-(set: $leetcodeExperience to (min: $leetcodeExercises*0.4,10))
+(set: $leetcodeExperience to (min: $leetcodeExercises*0.5,10))
 
 &lt;!-- .NET KNOWLEDGE --&gt;
 (set: $netKnowledge to (min:$netTopics*0.15+$petProjects*0.2+$leetcodeExperience*0.2+$gitHubPower*0.2+$workExperience*0.5,10))
@@ -709,7 +761,7 @@ salaryPower=$salaryPower</tw-passagedata><tw-passagedata pid="53" name="Посм
 
 (set: $resumePower to (max:$resumePower,0))
 (set: $resumePower to (min:$resumePower,10))
-}</tw-passagedata><tw-passagedata pid="57" name="Компания ищет кандидата" tags="" position="1113,1417" size="100,100">{
+}</tw-passagedata><tw-passagedata pid="56" name="Компания ищет кандидата" tags="" position="1113,1417" size="100,100">{
 (if: $debugMode is true)[
 resumePower=$resumePower&lt;br&gt;]
 
@@ -759,41 +811,44 @@ resumeCriteria=$resumeCriteria&lt;br&gt;
 (set: $currentVacancy to $maxAppropriateVacancy)
 (goto: &quot;Приглашение на собеседование&quot;)
 ]
-}</tw-passagedata><tw-passagedata pid="58" name="Перед собеседованием" tags="" position="789.1666666666667,749.1666666666666" size="100,100">Иван решил пока никому не говорить о предстоящем собеседовании и вести себя как обычно. Однако внутри он сильно переживает за будущее мероприятие. Ведь он никогда не был на техническом собеседовании на позицию программиста. 
+}</tw-passagedata><tw-passagedata pid="57" name="Перед собеседованием" tags="" position="789,749" size="100,100">Иван решил пока никому не говорить о предстоящем собеседовании и вести себя как обычно. Однако внутри он сильно переживает за будущее мероприятие. Ведь он никогда не был на техническом собеседовании на позицию программиста. 
 
 Что посоветуете Ивану, чтобы справиться с волнением?
 
 [[Пойти отдохнуть с друзьями -&gt;Отдых с друзьями перед собеседованием]]
 [[Посмотреть сериал-&gt;Посмотреть сериал перед собеседованием]]
-[[Подготовиться к вопросам -&gt;Подготовиться к вопросам на собеседовании]]</tw-passagedata><tw-passagedata pid="59" name="Отдых с друзьями перед собеседованием" tags="" position="710.8333333333334,910.8333333333334" size="100,100">Иван не удержался и рассказал друзьям о предстоящем собеседовании. Получив напутствия и изрядную долю алкоголя Иван вернулся в состоянии среднего алкогольного опьянения и завалился на кровать...
+[[Подготовиться к вопросам -&gt;Подготовиться к вопросам на собеседовании]]</tw-passagedata><tw-passagedata pid="58" name="Отдых с друзьями перед собеседованием" tags="" position="710,910" size="100,100">Иван не удержался и рассказал друзьям о предстоящем собеседовании. Получив напутствия и изрядную долю алкоголя Иван вернулся в состоянии среднего алкогольного опьянения и завалился на кровать...
 
-[[Спать -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="60" name="Посмотреть сериал перед собеседованием" tags="" position="877.5000000000001,941" size="100,100">Сериал действительно хорошо отвлек Ивана от неприятных мыслей и волнения. Правда после просмотра тревога вернулась вновь. Иван решил продолжить просмотр на телефоне в кровати и не заметил как уснул.
+[[Спать -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="59" name="Посмотреть сериал перед собеседованием" tags="" position="877,941" size="100,100">Сериал действительно хорошо отвлек Ивана от неприятных мыслей и волнения. Правда после просмотра тревога вернулась вновь. Иван решил продолжить просмотр на телефоне в кровати и не заметил как уснул.
 
-[[До завтра -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="61" name="Подготовиться к вопросам на собеседовании" tags="" position="975.8333333333336,710.8333333333333" size="100,100">Иван провел вечер и ночь за подготовкой к собеседованию. Но его постоянно отвлекали сообщениями и сконцентрироваться было сложно. Иван понимал, что на кону его карьера. Но это не помогало. Мозг отказывался работать и хотел спать...
+[[До завтра -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="60" name="Подготовиться к вопросам на собеседовании" tags="" position="975,710" size="100,100">Иван провел вечер и ночь за подготовкой к собеседованию. Но его постоянно отвлекали сообщениями и сконцентрироваться было сложно. Иван понимал, что на кону его карьера. Но это не помогало. Мозг отказывался работать и хотел спать...
 
-[[Спать -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="62" name="Сбор на собеседование" tags="" position="1252.5000000000002,750.8333333333333" size="100,100">Настало утро перед собеседованием. За завтраком Иван открыл вакансию компании (print: $currentVacancy&#39;s company) и еще раз посмотрел зарплату: (print: $currentVacancy&#39;s salaryText).
+[[Спать -&gt;Сбор на собеседование]]</tw-passagedata><tw-passagedata pid="61" name="Сбор на собеседование" tags="" position="1252,750" size="100,100">Настало утро перед собеседованием. За завтраком Иван открыл вакансию компании (print: $currentVacancy&#39;s company) и еще раз посмотрел зарплату: (print: $currentVacancy&#39;s salaryText).
 
 Иван решил отнестись к этому серьезно и надел относительно новый джемпер. Так одеваются программисты, надо выглядеть соответствующе. В назначенное время Иван подключился в Zoom.
 
-[[Включить звук и камеру -&gt;Начало технического собеседования]]</tw-passagedata><tw-passagedata pid="63" name="Начало технического собеседования" tags="" position="1394.166666666667,480.83333333333314" size="100,100">Ивана встретила улыбчивая девушка HR. Она рассказала о компании и познакомила Ивана с его потенциальными коллегами по работе. 
+[[Включить звук и камеру -&gt;Начало технического собеседования]]</tw-passagedata><tw-passagedata pid="62" name="Начало технического собеседования" tags="" position="1394,480" size="100,100">Ивана встретила улыбчивая девушка HR. Она рассказала о компании и познакомила Ивана с его потенциальными коллегами по работе. 
 Иван рассказал о своем опыте и поделился достижениями. Все внимательно слушали. Волнение немного подводило Ивана и голос иногда был слишком тихий. 
 {
 (set: $minNetKnowledge to 0.00003*$currentVacancy&#39;s salary)
+(set: $isInterviewMode to true)
 (if: $netKnowledge &lt; $minNetKnowledge)[
 (set: $interviewScore to -10)
 ]
 (else:)[(set: $interviewScore to $netKnowledge/$minNetKnowledge)]
 }
-[[Дальше -&gt;Продолжение технического собеседования]]</tw-passagedata><tw-passagedata pid="64" name="Продолжение технического собеседования 3" tags="" position="1890.8333333333337,429.16666666666663" size="100,100">Интервьюер перешел к другой теме. А Иван так и не понял, устроил интервьюера данный Иваном ответ или нет. 
+[[Дальше -&gt;Продолжение технического собеседования]]</tw-passagedata><tw-passagedata pid="63" name="Продолжение технического собеседования 3" tags="" position="1890,429" size="100,100">Интервьюер перешел к другой теме. А Иван так и не понял, устроил интервьюера данный Иваном ответ или нет. 
 Хорошо, а теперь давайте поговорим об архитектуре. Скажите, какие паттерны проектирования вы знаете?
 ...
+{
 (if: $challengePassed is true)[
 (set: $interviewScore to it*1.1)
 (set: $challengePassed to false)
 ]
-(if: $netKnowledge &gt; 4)[Иван недолго думая выдал несколько паттернов и перечислил их особенности и область применения.](elseif: $netKnowledge &gt; 3)[Иван не углублялся в эту тему при подготовке, но смог выдать несколько паттернов и рассказать о некоторых подробнее.](else:)[Вопрос оказался для Ивана слишком сложным. Он не смог ответить внятно и ясно.]
+(if: $netKnowledge &gt; 4)[Иван недолго думая выдал несколько паттернов и перечислил их особенности и область применения.](elseif: $netKnowledge &gt; 3)[Иван не углублялся в эту тему при подготовке, но смог выдать несколько паттернов и рассказать о некоторых подробнее.](else:)[Вопрос оказался для Ивана слишком сложным. Он не смог ответить внятно и ясно.]&lt;br&gt;
+}
 
-[[Хорошо, давайте дальше - сказал интервьюер-&gt;Продолжение технического собеседования 4]]</tw-passagedata><tw-passagedata pid="65" name="Продолжение технического собеседования 4" tags="" position="2085.8333333333335,454.1666666666667" size="100,100">Уверенность Ивана постепенно покидала его. С другой стороны накапливалась и усталость. Да сколько же можно? Давайте просто разойдемся. Иван успешно парирует несколько вопросов от своих собеседников. Однако не может сходу ответить на следующий:
+[[Хорошо, давайте дальше - сказал интервьюер-&gt;Продолжение технического собеседования 4]]</tw-passagedata><tw-passagedata pid="64" name="Продолжение технического собеседования 4" tags="" position="2085,454" size="100,100">Уверенность Ивана постепенно покидала его. С другой стороны накапливалась и усталость. Да сколько же можно? Давайте просто разойдемся. Иван успешно парирует несколько вопросов от своих собеседников. Однако не может сходу ответить на следующий:
 {
 (set: $challengeResultPassage to &quot;Завершение технического собеседования&quot;)
 (set: $challengeHeader to &quot;Итак вопрос:&quot;)
@@ -801,7 +856,7 @@ resumeCriteria=$resumeCriteria&lt;br&gt;
 (set: $challengePower to 5)
 (set: $challengeLevel to &quot;high&quot;)
 }
-(display: &quot;Вопрос&quot;)</tw-passagedata><tw-passagedata pid="66" name="Завершение технического собеседования" tags="" position="2134.166666666667,309.16666666666663" size="100,100">Еще немного заданий на знание программирования и запас испытаний для Ивана у  интервьюеров иссяк. Похоже время для вопросов от Ивана. Стоит ли Ивану спрашивать о процессе работы и будущей команде?
+(display: &quot;Вопрос&quot;)</tw-passagedata><tw-passagedata pid="65" name="Завершение технического собеседования" tags="" position="2134,309" size="100,100">Еще немного заданий на знание программирования и запас испытаний для Ивана у  интервьюеров иссяк. Похоже время для вопросов от Ивана. Стоит ли Ивану спрашивать о процессе работы и будущей команде?
 {
 (if: $challengePassed is true)[
 (set: $interviewScore to it*1.1)
@@ -809,7 +864,7 @@ resumeCriteria=$resumeCriteria&lt;br&gt;
 ]
 }
 (link: &quot;Да&quot;)[(set: $confidence to it + 1)(goto: &quot;Собеседование с HR&quot;)]
-(link: &quot;Нет&quot;)[(goto: &quot;Собеседование с HR&quot;)]</tw-passagedata><tw-passagedata pid="67" name="Собеседование с HR" tags="" position="1642.5000000000002,55.833333333333336" size="100,100">После долгой сессии вопросов Иван чувствует себя изрядно выжатым. Однако, расслабляться рано. Предстоит разговор с HR о зарплатных ожиданиях.
+(link: &quot;Нет&quot;)[(goto: &quot;Собеседование с HR&quot;)]</tw-passagedata><tw-passagedata pid="66" name="Собеседование с HR" tags="" position="1642,55" size="100,100">После долгой сессии вопросов Иван чувствует себя изрядно выжатым. Однако, расслабляться рано. Предстоит разговор с HR о зарплатных ожиданиях.
 ...
 Долгий разговор о преимуществах работы именно в этой компании закончился.
 Наконец, главный вопрос, который волнует Ивана:
@@ -819,26 +874,26 @@ resumeCriteria=$resumeCriteria&lt;br&gt;
 
 {
 (if: $salary &gt; 0)[
-(link: (print: &quot;У меня указано в резюме, &quot;$salary + &quot; руб.&quot;))[(set: $desiredSalary to $salary)(goto: &quot;Ожидание оффера&quot;)]
+(link: &quot;У меня указано в резюме, &quot; + (text: $salary) + &quot; руб.&quot;)[(set: $desiredSalary to $salary)(goto: &quot;Ожидание оффера&quot;)]&lt;br&gt;
 ]
 (if: $confidence &gt;= 1)[
-(link: (print: $currentVacancy&#39;s salary + &quot; руб.&quot;))[(set: $desiredSalary to $currentVacancy&#39;s salary)(goto: &quot;Ожидание оффера&quot;)]
+(link: (text: $currentVacancy&#39;s salary) + &quot; руб.&quot;)[(set: $desiredSalary to $currentVacancy&#39;s salary)(goto: &quot;Ожидание оффера&quot;)]&lt;br&gt;
 ]
 (if: $confidence &gt;= 2)[
-(link: (print: $currentVacancy&#39;s salary + 10000 + &quot; руб.&quot;))[(set: $desiredSalary to $currentVacancy&#39;s salary + 10000)(goto: &quot;Ожидание оффера&quot;)]
+(link: (text: $currentVacancy&#39;s salary + 10000) + &quot; руб.&quot;)[(set: $desiredSalary to $currentVacancy&#39;s salary + 10000)(goto: &quot;Ожидание оффера&quot;)]&lt;br&gt;
 ]
 (if: $confidence &gt;= 3)[
-(link: (print: $currentVacancy&#39;s salary + 20000 + &quot; руб.&quot;))[(set: $desiredSalary to $currentVacancy&#39;s salary + 20000)(goto: &quot;Ожидание оффера&quot;)]
+(link: (text: $currentVacancy&#39;s salary + 20000) + &quot; руб.&quot;)[(set: $desiredSalary to $currentVacancy&#39;s salary + 20000)(goto: &quot;Ожидание оффера&quot;)]&lt;br&gt;
 ]
 (if: $confidence &gt;= 4)[
-(link: (print: $currentVacancy&#39;s salary + 30000 + &quot; руб.&quot;))[(set: $desiredSalary to $currentVacancy&#39;s salary + 30000)(goto: &quot;Ожидание оффера&quot;)]
+(link: (text: $currentVacancy&#39;s salary + 30000) + &quot; руб.&quot;)[(set: $desiredSalary to $currentVacancy&#39;s salary + 30000)(goto: &quot;Ожидание оффера&quot;)]&lt;br&gt;
 ]
 }
-</tw-passagedata><tw-passagedata pid="68" name="Ожидание оффера" tags="" position="1055.8333333333335,149.16666666666663" size="100,100">Поболтав еще немного о плюшках, которые предоставляет компания Иван и HR попрощались друг с другом. Девушка обещала перезвонить даже в случае отказа.
+</tw-passagedata><tw-passagedata pid="67" name="Ожидание оффера" tags="" position="1055,149" size="100,100">Поболтав еще немного о плюшках, которые предоставляет компания Иван и HR попрощались друг с другом. Девушка обещала перезвонить даже в случае отказа.
 
 Иван вернулся домой и решил заслуженно позависать в интернете. Зависнув на пару часов на YouTube он понял, что так больше продолжать нельзя и переключился на сериал.
 
-[[Прошло 2 дня -&gt;Решение по офферу]]</tw-passagedata><tw-passagedata pid="69" name="Решение по офферу" tags="" position="717.5,40.83333333333326" size="100,100">Через 2 дня Ивану перезвонила все та же девушка HR. В дружелюбной манере она рассказала ему о принятом после собеседования решении.
+[[Прошло 2 дня -&gt;Решение по офферу]]</tw-passagedata><tw-passagedata pid="68" name="Решение по офферу" tags="" position="717,40" size="100,100">Через 2 дня Ивану перезвонила все та же девушка HR. В дружелюбной манере она рассказала ему о принятом после собеседования решении.
 {
 (if: $interviewScore &gt; 0)[
 (set: $realSalary to $currentVacancy&#39;s salary * $interviewScore)
@@ -848,17 +903,26 @@ resumeCriteria=$resumeCriteria&lt;br&gt;
 Иван, к сожалению, по результатам технического собеседования мы не можем предложить вам позицию (print: $currentVacancy&#39;s title). Надеемся встретится в будущем снова!&lt;br&gt;
 ]
 }
-[[Согласиться -&gt;Итог]]</tw-passagedata><tw-passagedata pid="70" name="Итог" tags="" position="462.3333333333333,34.166666666666586" size="100,100">Ваш результат:
 
+[[Хорошо -&gt;Итог]]</tw-passagedata><tw-passagedata pid="69" name="Итог" tags="" position="462,34" size="100,100">Ваш результат:
+
+Прошло $day дней. 
+{
+(if: $isInterviewMode is true)[
 (if: $resultSalary &gt; 0)[
 Иван принят позицию (print: $currentVacancy&#39;s title) с зарплатой $resultSalary рублей.
 ](else:)[Иван не прошел техническое собеседование. Возможно стоит попробовать снова?]
+](else:)[
+Уже прошло много времени, а Иван так и не сходил на собеседование ни разу. Может быть стоит получше поработать с резюме?
+]
+}
 
-Спасибо за игру!</tw-passagedata><tw-passagedata pid="71" name="Статья про работу в IT" tags="" position="1693.6666666666665,1512.6666666666667" size="100,100">(display: &quot;Базовый&quot;)
+
+Спасибо за игру!</tw-passagedata><tw-passagedata pid="70" name="Статья про работу в IT" tags="" position="1693,1512" size="100,100">(display: &quot;Базовый&quot;)
 Статья рассказывает про сложности работодателей с поиском кандидатов. Судя по всему, идет настоящая охота за головами... Это немного порадовало Ивана и вселило ему уверенности.
 
 (link: &quot;Продолжить читать&quot;)[(set: $confidence to it + 1)(set:$jobInITArticleDone to true)(goto:&quot;Статья прочитана&quot;)]
-[[Покинуть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="72" name="Профиль Ивана" tags="" position="905.6666666666665,1704.3333333333335" size="100,100">(display: &quot;Резюме&quot;)
+[[Покинуть сайт -&gt;Дом]]</tw-passagedata><tw-passagedata pid="71" name="Профиль Ивана" tags="" position="905,1704" size="100,100">(display: &quot;Резюме&quot;)
 ----------------------------
 (display: &quot;Профиль на фриланс бирже&quot;)
 ----------------------------
